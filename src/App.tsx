@@ -9,6 +9,7 @@ import { Era1995 } from './components/eras/Era1995';
 export const App: React.FC = () => {
   const [currentEraId, setCurrentEraId] = useState<EraId>('1995');
   const [soundMuted, setSoundMuted] = useState(false);
+  const [crtEnabled, setCrtEnabled] = useState(true);
 
   const currentEra = ERAS.find((e) => e.id === currentEraId) || ERAS[0];
   const currentIndex = ERAS.findIndex((e) => e.id === currentEraId);
@@ -48,22 +49,42 @@ export const App: React.FC = () => {
   }, [handlePrevEra, handleNextEra]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-black text-white selection:bg-amber-500 selection:text-black">
-      {/* Day 1 Minimal Header */}
-      <header className="border-b border-white/10 bg-black/60 px-6 py-6 flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-black tracking-tight text-white">
-            BACKSPACE<span className="text-amber-400">_</span>
-          </h1>
-          <p className="text-xs text-slate-400 font-medium">rewind the internet • Day 1 Milestone</p>
+    <div className="min-h-screen flex flex-col bg-[#0e1017] text-[#c5c6c7] selection:bg-[#ffb000] selection:text-black">
+      {/* 1980s CRT Raster Overlay */}
+      {crtEnabled && <div className="crt-overlay" />}
+
+      {/* Retro Vintage Header */}
+      <header className="border-b border-[#2d3748] bg-[#141722] px-4 sm:px-8 py-4 flex flex-wrap items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <div className="w-3 h-3 rounded-full bg-[#ffb000] animate-ping" />
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-mono font-bold tracking-tight text-[#f1f5f9] flex items-center">
+              BACKSPACE<span className="text-[#ffb000] amber-glow animate-pulse">_</span>
+            </h1>
+            <p className="text-[11px] font-mono text-[#8a99ad]">
+              [REWIND THE INTERNET] • TEMPORAL RECONSTRUCTION ENGINE
+            </p>
+          </div>
         </div>
 
-        <button
-          onClick={handleToggleSound}
-          className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-white/10 hover:bg-white/20 text-white transition-all"
-        >
-          {!soundMuted ? '🔊 Sound ON' : '🔇 Muted'}
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setCrtEnabled(!crtEnabled)}
+            className="px-3 py-1.5 rounded-lg text-xs font-mono font-semibold border border-[#3e4c63] bg-[#1a202c] hover:bg-[#2d3748] text-[#a0aec0] hover:text-white transition-all flex items-center gap-1.5"
+            title="Toggle CRT Screen Scanlines"
+          >
+            <span>📺</span>
+            <span>CRT: {crtEnabled ? 'ON' : 'OFF'}</span>
+          </button>
+
+          <button
+            onClick={handleToggleSound}
+            className="px-3 py-1.5 rounded-lg text-xs font-mono font-semibold border border-[#3e4c63] bg-[#1a202c] hover:bg-[#2d3748] text-[#a0aec0] hover:text-white transition-all flex items-center gap-1.5"
+          >
+            <span>{!soundMuted ? '🔊' : '🔇'}</span>
+            <span>{!soundMuted ? 'AUDIO: ON' : 'MUTED'}</span>
+          </button>
+        </div>
       </header>
 
       {/* Timeline Scrubber */}
