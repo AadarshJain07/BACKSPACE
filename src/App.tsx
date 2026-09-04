@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { eras, years } from "./eras"
+import { eras, years } from "./types/era"
 
 function App() {
   const [selectedYear, setSelectedYear] = useState<keyof typeof eras>(2026)
