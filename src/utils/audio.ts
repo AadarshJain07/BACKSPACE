@@ -57,6 +57,19 @@ class SoundEngine {
         gain.connect(ctx.destination);
         osc.start(now);
         osc.stop(now + 0.05);
+              } else if (eraPreset === '2000') {
+        // High-pitched Windows 2000 navigation click / ICQ chirp
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(950, now);
+        osc.frequency.exponentialRampToValueAtTime(1400, now + 0.04);
+        gain.gain.setValueAtTime(0.12, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.05);
       } else if (eraPreset === 'bubble' || eraPreset === '2005') {
         // Web 2.0 glossy water droplet / bubble pop
         const osc = ctx.createOscillator();

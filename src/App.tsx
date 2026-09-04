@@ -5,6 +5,7 @@ import type { EraId } from './types/era';
 import { sound } from './utils/audio';
 import { Timeline } from './components/Timeline';
 import { Era1995 } from './components/eras/Era1995';
+import { Era2000 } from './components/eras/Era2000';
 
 export const App: React.FC = () => {
   const [currentEraId, setCurrentEraId] = useState<EraId>('1995');
@@ -101,6 +102,8 @@ export const App: React.FC = () => {
       <main className="max-w-7xl mx-auto w-full p-4 sm:p-6 flex-1">
         {currentEraId === '1995' ? (
           <Era1995 era={currentEra} />
+        ) : currentEraId === '2000' ? (
+          <Era2000 era={currentEra} />
         ) : (
           <div className="bg-slate-900 border border-white/10 rounded-2xl p-12 text-center space-y-3">
             <div className="text-4xl font-mono text-amber-400 font-bold">{currentEra.year}</div>
