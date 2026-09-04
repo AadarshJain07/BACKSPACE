@@ -1,117 +1,98 @@
-import { useState } from "react"
-import { eras, years } from "./types/era"
+import React, { useState, useEffect, useCallback } from 'react';
+import confetti from 'canvas-confetti';
+import { ERAS } from './data/eras';
+import type { EraId } from './types/era';
+import { sound } from './utils/audio';
+import { Timeline } from './components/Timeline';
+import { Era1995 } from './components/eras/Era1995';
 
-function App() {
-  const [selectedYear, setSelectedYear] = useState<keyof typeof eras>(2026)
+export const App: React.FC = () => {
+  const [currentEraId, setCurrentEraId] = useState<EraId>('1995');
+  const [soundMuted, setSoundMuted] = useState(false);
 
-  const theme = eras[selectedYear]
-  const is1995 = selectedYear === 1995
+  const currentEra = ERAS.find((e) => e.id === currentEraId) || ERAS[0];
+  const currentIndex = ERAS.findIndex((e) => e.id === currentEraId);
+
+  const handleSelectEra = useCallback((eraId: string) => {
+    sound.playTimeWarp();
+    setCurrentEraId(eraId as EraId);
+  }, []);
+
+  const handlePrevEra = useCallback(() => {
+    if (currentIndex > 0) {
+      handleSelectEra(ERAS[currentIndex - 1].id);
+    }
+  }, [currentIndex, handleSelectEra]);
+
+  const handleNextEra = useCallback(() => {
+    if (currentIndex < ERAS.length - 1) {
+      handleSelectEra(ERAS[currentIndex + 1].id);
+    }
+  }, [currentIndex, handleSelectEra]);
+
+  const handleToggleSound = () => {
+    const nextState = !soundMuted;
+    setSoundMuted(nextState);
+    sound.isMuted = nextState;
+  };
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (['INPUT', 'TEXTAREA'].includes((e.target as HTMLElement).tagName)) return;
+      if (e.key === 'ArrowLeft') handlePrevEra();
+      if (e.key === 'ArrowRight') handleNextEra();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [handlePrevEra, handleNextEra]);
 
   return (
-    <main
-      className="min-h-screen flex items-center justify-center px-6 transition-all duration-700"
-      style={{
-        backgroundColor: theme.background,
-        color: theme.text,
-        fontFamily: theme.font,
-      }}
-    >
-      <section className="w-full max-w-4xl">
-
-        {/* Header */}
-        <div
-          className={`text-center ${
-            is1995 ? "border-4 border-double p-6" : ""
-          }`}
-          style={{
-            borderColor: is1995 ? theme.border : "transparent",
-          }}
-        >
-          <p className="mb-6 text-sm tracking-[0.4em] uppercase opacity-50">
-            {is1995 ? "WORLD WIDE WEB" : "DIGITAL TIME MACHINE"}
-          </p>
-
-          <h1
-            className={`font-bold ${
-              is1995
-                ? "text-5xl md:text-7xl underline"
-                : "text-6xl md:text-8xl tracking-tight"
-            }`}
-          >
-            {theme.title}
+    <div className="min-h-screen flex flex-col bg-black text-white selection:bg-amber-500 selection:text-black">
+      {/* Day 1 Minimal Header */}
+      <header className="border-b border-white/10 bg-black/60 px-6 py-6 flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-black tracking-tight text-white">
+            BACKSPACE<span className="text-amber-400">_</span>
           </h1>
-
-          <p
-            className={`mt-6 ${
-              is1995
-                ? "text-lg md:text-xl"
-                : "text-xl md:text-2xl"
-            } opacity-70`}
-          >
-            {theme.subtitle}
-          </p>
-
-          <p className="mt-4 max-w-xl mx-auto text-sm md:text-base leading-relaxed opacity-60">
-            {theme.description}
-          </p>
+          <p className="text-xs text-slate-400 font-medium">rewind the internet • Day 1 Milestone</p>
         </div>
 
-        {/* Year Selector */}
-        <div
-          className={`mt-12 flex flex-wrap justify-center gap-3 ${
-            is1995 ? "border-t border-b py-6" : ""
-          }`}
-          style={{
-            borderColor: is1995 ? theme.border : "transparent",
-          }}
+        <button
+          onClick={handleToggleSound}
+          className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-white/10 hover:bg-white/20 text-white transition-all"
         >
-          {years.map((year) => (
-            <button
-              key={year}
-              onClick={() => setSelectedYear(year)}
-              className={`transition-all duration-300 ${
-                is1995
-                  ? "px-4 py-2 border"
-                  : "px-4 py-2 rounded-full border"
-              }`}
-              style={{
-                borderColor: theme.border,
-                backgroundColor:
-                  selectedYear === year ? theme.text : "transparent",
-                color:
-                  selectedYear === year ? theme.background : theme.text,
-              }}
-            >
-              {year}
-            </button>
-          ))}
-        </div>
+          {!soundMuted ? '🔊 Sound ON' : '🔇 Muted'}
+        </button>
+      </header>
 
-        {/* Current Era */}
-        <div
-          className={`mt-8 text-center ${
-            is1995 ? "font-bold" : ""
-          }`}
-        >
-          Currently exploring{" "}
-          <span className="opacity-100">
-            {selectedYear}
-          </span>
-        </div>
+      {/* Timeline Scrubber */}
+      <Timeline
+        eras={ERAS}
+        currentEra={currentEra}
+        currentIndex={currentIndex}
+        onSelectEra={handleSelectEra}
+        onPrevEra={handlePrevEra}
+        onNextEra={handleNextEra}
+      />
 
-        {/* 1995 browser-style footer */}
-        {is1995 && (
-          <div
-            className="mt-10 text-center text-xs border-t pt-4"
-            style={{ borderColor: theme.border }}
-          >
-            Best viewed with a web browser · © 1995 BACKSPACE
+      {/* Main Era Display */}
+      <main className="max-w-7xl mx-auto w-full p-4 sm:p-6 flex-1">
+        {currentEraId === '1995' ? (
+          <Era1995 era={currentEra} />
+        ) : (
+          <div className="bg-slate-900 border border-white/10 rounded-2xl p-12 text-center space-y-3">
+            <div className="text-4xl font-mono text-amber-400 font-bold">{currentEra.year}</div>
+            <h2 className="text-xl font-bold uppercase">{currentEra.eraName}</h2>
+            <p className="text-xs text-slate-400 max-w-md mx-auto">{currentEra.subtitle}</p>
+            <div className="inline-block mt-4 px-3 py-1 bg-amber-400/10 text-amber-300 border border-amber-400/30 rounded-full text-xs font-mono">
+              Coming in future challenge days! 🚀
+            </div>
           </div>
         )}
-      </section>
-    </main>
-  )
-}
+      </main>
+    </div>
+  );
+};
 
-export default App
-//day 1 just added basic stuff
+export default App;
