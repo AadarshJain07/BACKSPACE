@@ -61,7 +61,7 @@ class SoundEngine {
         // High-pitched Windows 2000 navigation click / ICQ chirp
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
-        osc.type = 'triangle';
+        // osc.type = 'triangle';
         osc.frequency.setValueAtTime(950, now);
         osc.frequency.exponentialRampToValueAtTime(1400, now + 0.04);
         gain.gain.setValueAtTime(0.12, now);
