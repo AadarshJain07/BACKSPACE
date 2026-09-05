@@ -32,7 +32,7 @@ export interface EraStats {
 export interface InteractiveWidgetConfig {
   type: string;
   title: string;
-  initialData?: any;
+  initialData?: unknown;
 }
 export interface EraConfig {
   id: EraId;

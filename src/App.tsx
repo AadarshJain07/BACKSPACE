@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import confetti from 'canvas-confetti';
 import { ERAS } from './data/eras';
 import type { EraId } from './types/era';
 import { sound } from './utils/audio';
@@ -45,10 +44,48 @@ export const App: React.FC = () => {
       if (e.key === 'ArrowLeft') handlePrevEra();
       if (e.key === 'ArrowRight') handleNextEra();
     };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [handlePrevEra, handleNextEra]);
+   window.addEventListener('keydown', handleKeyDown);
+   let touchStartX = 0;
+   let touchStartY = 0;
 
+   const handleTouchStart = (e: TouchEvent) => {
+    const target = e.target as HTMLElement;
+    if (['INPUT', 'TEXTAREA'].includes(target.tagName)) return;
+   if (target.closest('canvas') || target.closest('.no-swipe')) return; // Ignore swipes on canvas or elements with .no-swipe
+
+   touchStartX = e.touches[0].clientX;
+   touchStartY = e.touches[0].clientY;
+  }
+  
+   const handleTouchEnd = (e: TouchEvent) => {
+    if (!touchStartX || !touchStartY) return;
+    const touchEndX = e.changedTouches[0].clientX;
+    const touchEndY = e.changedTouches[0].clientY;
+    
+    const deltaX = touchEndX - touchStartX;
+    const deltaY = touchEndY - touchStartY;
+
+      // Ensure horizontal swipe is dominant and exceeds minimum threshold (60px)
+      if (Math.abs(deltaX) > 60 && Math.abs(deltaX) > Math.abs(deltaY) * 1.5) {
+        if (deltaX < 0) {
+          // Swiped Left -> Go Next Era
+          handleNextEra();
+        } else {
+          // Swiped Right -> Go Prev Era
+          handlePrevEra();
+        }
+      }
+      touchStartX = 0;
+      touchStartY = 0;
+    };
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchend', handleTouchEnd, { passive: true });
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, [handlePrevEra, handleNextEra]);
   return (
     <div className="min-h-screen flex flex-col bg-[#0e1017] text-[#c5c6c7] selection:bg-[#ffb000] selection:text-black">
       {/* 1980s CRT Raster Overlay */}
