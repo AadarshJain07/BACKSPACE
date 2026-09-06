@@ -2,6 +2,9 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import confetti from 'canvas-confetti';
 import { EraConfig } from '../../types/era';
 import { sound } from '../../utils/audio';
+import { YouTube2005 } from './era2005/YouTube2005';
+import { Thefacebook2005 } from './era2005/Thefacebook2005';
+import { GoogleMaps2005 } from './era2005/GoogleMaps2005';
 
 interface Props {
   era: EraConfig;
@@ -318,7 +321,7 @@ const ALL_TAGS = [
 
 export const Era2005: React.FC<Props> = () => {
   // Navigation tabs in Firefox 1.5
-  const [activeTab, setActiveTab] = useState<'digg' | 'myspace' | 'flickr' | 'rss' | 'badgeLab'>('digg');
+  const [activeTab, setActiveTab] = useState<'digg' | 'youtube' | 'thefacebook' | 'googlemaps' | 'myspace' | 'flickr' | 'rss' | 'badgeLab'>('digg');
   const [urlInput, setUrlInput] = useState('http://www.digg.com/web20/popular');
   const [isAjaxLoading, setIsAjaxLoading] = useState(false);
   const [ajaxStatusText, setAjaxStatusText] = useState('Done (Gecko 1.8.0 engine idle)');
@@ -373,6 +376,15 @@ export const Era2005: React.FC<Props> = () => {
     switch (activeTab) {
       case 'digg':
         setUrlInput('http://www.digg.com/web20/popular');
+        break;
+      case 'youtube':
+        setUrlInput('http://www.youtube.com');
+        break;
+      case 'thefacebook':
+        setUrlInput('http://www.thefacebook.com');
+        break;
+      case 'googlemaps':
+        setUrlInput('http://maps.google.com');
         break;
       case 'myspace':
         setUrlInput('http://www.myspace.com/alex_retro_2005');
@@ -711,6 +723,9 @@ export const Era2005: React.FC<Props> = () => {
         <div className="bg-[#dedad0] border-b border-[#aca899] px-2 pt-1.5 flex items-end gap-1 select-none overflow-x-auto">
           {[
             { id: 'digg', label: 'Digg.com (News)', icon: '⛏️', badge: `${stories.length}` },
+            { id: 'youtube', label: 'YouTube (Videos)', icon: '📹', badge: 'Flash' },
+            { id: 'thefacebook', label: 'Thefacebook', icon: '🎓', badge: 'Harvard' },
+            { id: 'googlemaps', label: 'Google Maps', icon: '🗺️', badge: 'AJAX' },
             { id: 'myspace', label: 'MySpace Profile', icon: '👤', badge: 'Top 8' },
             { id: 'flickr', label: 'Flickr Photostream', icon: '📸', badge: '3' },
             { id: 'rss', label: 'Google Reader (RSS)', icon: '📡', badge: 'New' },
@@ -851,6 +866,33 @@ export const Era2005: React.FC<Props> = () => {
             className="hover:underline flex items-center gap-1 font-medium"
           >
             ⛏️ Digg Frontpage
+          </button>
+          <button
+            onClick={() => {
+              sound.playClick('bubble');
+              setActiveTab('youtube');
+            }}
+            className="hover:underline flex items-center gap-1 font-medium text-red-600"
+          >
+            📹 YouTube
+          </button>
+          <button
+            onClick={() => {
+              sound.playClick('bubble');
+              setActiveTab('thefacebook');
+            }}
+            className="hover:underline flex items-center gap-1 font-medium text-blue-700"
+          >
+            🎓 Thefacebook
+          </button>
+          <button
+            onClick={() => {
+              sound.playClick('bubble');
+              setActiveTab('googlemaps');
+            }}
+            className="hover:underline flex items-center gap-1 font-medium text-emerald-700"
+          >
+            🗺️ Google Maps
           </button>
           <button
             onClick={() => {
@@ -1293,6 +1335,27 @@ export const Era2005: React.FC<Props> = () => {
                   </div>
                 </div>
               )}
+            </div>
+          )}
+
+          {/* ======================= TAB: YOUTUBE 2005 ======================= */}
+          {activeTab === 'youtube' && (
+            <div className="max-w-5xl mx-auto">
+              <YouTube2005 />
+            </div>
+          )}
+
+          {/* ======================= TAB: THEFACEBOOK 2005 ======================= */}
+          {activeTab === 'thefacebook' && (
+            <div className="max-w-5xl mx-auto">
+              <Thefacebook2005 />
+            </div>
+          )}
+
+          {/* ======================= TAB: GOOGLE MAPS 2005 ======================= */}
+          {activeTab === 'googlemaps' && (
+            <div className="max-w-5xl mx-auto">
+              <GoogleMaps2005 />
             </div>
           )}
 

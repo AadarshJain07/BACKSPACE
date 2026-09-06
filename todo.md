@@ -32,3 +32,6 @@
 - [x] Google Reader (RSS 2.0) Live Feeds with Asynchronous XML Polling
 - [x] Web 2.0 Aqua-Gloss BETA Ribbon & Badge Studio Customizer
 - [x] Web 2.0 Sound Effects (Digg Chime, Bubble Pop, RSS Alert)
+- [x] YouTube 2005 Classic 4:3 Flash Player ("Me at the zoo", 5-star rating system, embed generator, comments)
+- [x] Thefacebook 2005 College Network (Al Pacino header, Poke War mini-game, campus selector, The Wall)
+- [x] Google Maps 2005 AJAX Draggable Map (Slippery map panning, satellite/hybrid toggle, pushpins, turn directions)
