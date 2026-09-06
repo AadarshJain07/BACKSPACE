@@ -117,3 +117,68 @@
 .cyber-glow {
   text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff, 0 0 20px #ff00ff;
 }
+
+/* 2005 Web 2.0 Glossy Skeuomorphic Aesthetics */
+.web20-gloss {
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.web20-gloss::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.05) 100%);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.web20-badge-beta {
+  background: linear-gradient(180deg, #ff7a00 0%, #ff4800 50%, #d62d00 51%, #b31e00 100%);
+  color: white;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.web20-badge-blue {
+  background: linear-gradient(180deg, #5dade2 0%, #2e86c1 50%, #2874a6 51%, #1b4f72 100%);
+  color: white;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.web20-badge-green {
+  background: linear-gradient(180deg, #82e0aa 0%, #28b463 50%, #239b56 51%, #196f3d 100%);
+  color: white;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+/* Classic 2005 AJAX Flower Spinner */
+@keyframes ajax-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.animate-ajax-spin {
+  animation: ajax-spin 1s steps(8, end) infinite;
+}
+
+/* 2005 MySpace Glitter Text effect */
+.myspace-glitter {
+  background: linear-gradient(90deg, #ff007f, #ff00ff, #00ffff, #ffff00, #ff007f);
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: glitter-move 3s linear infinite;
+}
+
+@keyframes glitter-move {
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}

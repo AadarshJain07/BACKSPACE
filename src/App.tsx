@@ -5,6 +5,7 @@ import { sound } from './utils/audio';
 import { Timeline } from './components/Timeline';
 import { Era1995 } from './components/eras/Era1995';
 import { Era2000 } from './components/eras/Era2000';
+import { Era2005 } from './components/eras/Era2005';
 
 export const App: React.FC = () => {
   const [currentEraId, setCurrentEraId] = useState<EraId>('1995');
@@ -37,33 +38,36 @@ export const App: React.FC = () => {
     sound.isMuted = nextState;
   };
 
-  // Keyboard navigation
+  // Keyboard navigation & Touch Swipe Navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (['INPUT', 'TEXTAREA'].includes((e.target as HTMLElement).tagName)) return;
       if (e.key === 'ArrowLeft') handlePrevEra();
       if (e.key === 'ArrowRight') handleNextEra();
     };
-   window.addEventListener('keydown', handleKeyDown);
-   let touchStartX = 0;
-   let touchStartY = 0;
+    window.addEventListener('keydown', handleKeyDown);
 
-   const handleTouchStart = (e: TouchEvent) => {
-    const target = e.target as HTMLElement;
-    if (['INPUT', 'TEXTAREA'].includes(target.tagName)) return;
-   if (target.closest('canvas') || target.closest('.no-swipe')) return; // Ignore swipes on canvas or elements with .no-swipe
+    // Touch Swipe Gesture Handling
+    let touchStartX = 0;
+    let touchStartY = 0;
 
-   touchStartX = e.touches[0].clientX;
-   touchStartY = e.touches[0].clientY;
-  }
-  
-   const handleTouchEnd = (e: TouchEvent) => {
-    if (!touchStartX || !touchStartY) return;
-    const touchEndX = e.changedTouches[0].clientX;
-    const touchEndY = e.changedTouches[0].clientY;
-    
-    const deltaX = touchEndX - touchStartX;
-    const deltaY = touchEndY - touchStartY;
+    const handleTouchStart = (e: TouchEvent) => {
+      const target = e.target as HTMLElement;
+      if (['INPUT', 'TEXTAREA', 'SELECT', 'CANVAS', 'BUTTON'].includes(target.tagName)) return;
+      if (target.closest('canvas') || target.closest('.no-swipe')) return;
+
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+    };
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      if (!touchStartX || !touchStartY) return;
+
+      const touchEndX = e.changedTouches[0].clientX;
+      const touchEndY = e.changedTouches[0].clientY;
+
+      const deltaX = touchEndX - touchStartX;
+      const deltaY = touchEndY - touchStartY;
 
       // Ensure horizontal swipe is dominant and exceeds minimum threshold (60px)
       if (Math.abs(deltaX) > 60 && Math.abs(deltaX) > Math.abs(deltaY) * 1.5) {
@@ -75,17 +79,21 @@ export const App: React.FC = () => {
           handlePrevEra();
         }
       }
+
       touchStartX = 0;
       touchStartY = 0;
     };
+
     window.addEventListener('touchstart', handleTouchStart, { passive: true });
     window.addEventListener('touchend', handleTouchEnd, { passive: true });
+
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('touchstart', handleTouchStart);
       window.removeEventListener('touchend', handleTouchEnd);
     };
   }, [handlePrevEra, handleNextEra]);
+
   return (
     <div className="min-h-screen flex flex-col bg-[#0e1017] text-[#c5c6c7] selection:bg-[#ffb000] selection:text-black">
       {/* 1980s CRT Raster Overlay */}
@@ -141,6 +149,8 @@ export const App: React.FC = () => {
           <Era1995 era={currentEra} />
         ) : currentEraId === '2000' ? (
           <Era2000 era={currentEra} />
+        ) : currentEraId === '2005' ? (
+          <Era2005 era={currentEra} />
         ) : (
           <div className="bg-slate-900 border border-white/10 rounded-2xl p-12 text-center space-y-3">
             <div className="text-4xl font-mono text-amber-400 font-bold">{currentEra.year}</div>

@@ -17,3 +17,18 @@
 - [x] GeoCities Neighborhood Switcher (SiliconValley, Area51, SoHo, Heartland)
 - [x] DHTML Sparkle Star Mouse Cursor Trail
 - [x] 88x31 Button Badge Collector
+
+# Day 3 - Completed
+- [x] 2005 Web 2.0 Revolution Era
+- [x] Mozilla Firefox 1.5 Tabbed Browser Chrome & Gecko 1.8 Engine
+- [x] Digg.com 2005 Social News Aggregator with Live Upvoting & Chimes
+- [x] AJAX (XMLHttpRequest) Story Submission Modal & Discussion Threads
+- [x] Del.icio.us Dynamic Tag Cloud with Weighted Font Scaling & Filtering
+- [x] MySpace 2005 Profile with Tom Anderson Friend Banner
+- [x] Interactive Top 8 Friends Drag & Reordering System
+- [x] MySpace Embedded Flash MP3 Player with Synthesized Power Chords & Equalizer
+- [x] MySpace Profile Styler / CSS Skin Switcher (Classic, Scene, Pink, Gothic)
+- [x] Flickr 2005 Photostream with Interactive Yellow Sticky Notes & Annotations
+- [x] Google Reader (RSS 2.0) Live Feeds with Asynchronous XML Polling
+- [x] Web 2.0 Aqua-Gloss BETA Ribbon & Badge Studio Customizer
+- [x] Web 2.0 Sound Effects (Digg Chime, Bubble Pop, RSS Alert)

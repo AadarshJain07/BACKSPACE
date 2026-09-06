@@ -2,13 +2,10 @@
 class SoundEngine {
   private ctx: AudioContext | null = null;
   public isMuted: boolean = false;
-
   private getContext(): AudioContext | null {
     if (typeof window === 'undefined') return null;
     if (!this.ctx) {
-      const AudioCtx =
-        window.AudioContext ||
-        (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+      const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
       if (AudioCtx) {
         this.ctx = new AudioCtx();
       }
@@ -18,7 +15,6 @@ class SoundEngine {
     }
     return this.ctx;
   }
-
   public playTimeWarp() {
     if (this.isMuted) return;
     const ctx = this.getContext();
@@ -32,17 +28,16 @@ class SoundEngine {
       osc.frequency.exponentialRampToValueAtTime(880, now + 0.15);
       osc.frequency.exponentialRampToValueAtTime(220, now + 0.35);
 
-      gain.gain.setValueAtTime(0.15, now);
+         gain.gain.setValueAtTime(0.15, now);
       gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
       osc.connect(gain);
       gain.connect(ctx.destination);
       osc.start(now);
       osc.stop(now + 0.4);
     } catch {
-      // Ignore
+      // Ignore audio errors if blocked by browser policy
     }
   }
-
   public playClick(eraPreset?: string) {
     if (this.isMuted) return;
     const ctx = this.getContext();
@@ -50,6 +45,7 @@ class SoundEngine {
     try {
       const now = ctx.currentTime;
       if (eraPreset === 'dialup' || eraPreset === '1995') {
+        // High mechanical clack
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
         osc.type = 'square';
@@ -61,9 +57,11 @@ class SoundEngine {
         gain.connect(ctx.destination);
         osc.start(now);
         osc.stop(now + 0.05);
-      } else if (eraPreset === '2000') {
+              } else if (eraPreset === '2000') {
+        // High-pitched Windows 2000 navigation click / ICQ chirp
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
+        // osc.type = 'triangle';
         osc.frequency.setValueAtTime(950, now);
         osc.frequency.exponentialRampToValueAtTime(1400, now + 0.04);
         gain.gain.setValueAtTime(0.12, now);
@@ -73,6 +71,7 @@ class SoundEngine {
         osc.start(now);
         osc.stop(now + 0.05);
       } else if (eraPreset === 'bubble' || eraPreset === '2005') {
+        // Web 2.0 glossy water droplet / bubble pop
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
         osc.type = 'sine';
@@ -85,10 +84,11 @@ class SoundEngine {
         osc.start(now);
         osc.stop(now + 0.1);
       } else if (eraPreset === 'spatial' || eraPreset === '2026') {
+        // Subtle pure crystal bell
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
         osc.type = 'sine';
-        osc.frequency.setValueAtTime(1046.5, now);
+        osc.frequency.setValueAtTime(1046.5, now); // C6
         gain.gain.setValueAtTime(0.08, now);
         gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
         osc.connect(gain);
@@ -96,6 +96,7 @@ class SoundEngine {
         osc.start(now);
         osc.stop(now + 0.25);
       } else if (eraPreset === 'quantum' || eraPreset === '2040') {
+        // Futuristic shimmer dual tone
         const osc1 = ctx.createOscillator();
         const osc2 = ctx.createOscillator();
         const gain = ctx.createGain();
@@ -114,6 +115,7 @@ class SoundEngine {
         osc1.stop(now + 0.35);
         osc2.stop(now + 0.35);
       } else {
+        // Standard tactile click
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
         osc.type = 'sine';
@@ -130,13 +132,12 @@ class SoundEngine {
       // Ignore
     }
   }
-
   public playModemHandshake() {
     if (this.isMuted) return;
     const ctx = this.getContext();
     if (!ctx) return;
-    try {
-      const now = ctx.currentTime;
+    try {   const now = ctx.currentTime;
+      // Dial tone
       const osc1 = ctx.createOscillator();
       const osc2 = ctx.createOscillator();
       const gain = ctx.createGain();
@@ -154,7 +155,7 @@ class SoundEngine {
       osc2.start(now);
       osc1.stop(now + 0.35);
       osc2.stop(now + 0.35);
-
+      // Chirp screech (white noise burst)
       const bufferSize = ctx.sampleRate * 0.8;
       const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
       const output = buffer.getChannelData(0);
@@ -174,7 +175,6 @@ class SoundEngine {
       // Ignore
     }
   }
-
   public playMessageAlert() {
     if (this.isMuted) return;
     const ctx = this.getContext();
@@ -287,6 +287,82 @@ class SoundEngine {
       // Ignore
     }
   }
-}
 
+  public playDigg() {
+    if (this.isMuted) return;
+    const ctx = this.getContext();
+    if (!ctx) return;
+    try {
+      const now = ctx.currentTime;
+      // Vibrant Web 2.0 Digg chime (two ascending pure crystal sine tones)
+      const osc1 = ctx.createOscillator();
+      const osc2 = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc1.type = 'sine';
+      osc2.type = 'triangle';
+      osc1.frequency.setValueAtTime(587.33, now); // D5
+      osc1.frequency.exponentialRampToValueAtTime(880, now + 0.08); // A5
+      osc2.frequency.setValueAtTime(880, now + 0.08);
+      osc2.frequency.exponentialRampToValueAtTime(1174.66, now + 0.2); // D6
+
+      gain.gain.setValueAtTime(0.12, now);
+      gain.gain.linearRampToValueAtTime(0.18, now + 0.08);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+
+      osc1.connect(gain);
+      osc2.connect(gain);
+      gain.connect(ctx.destination);
+      osc1.start(now);
+      osc1.stop(now + 0.08);
+      osc2.start(now + 0.08);
+      osc2.stop(now + 0.35);
+    } catch {
+      // Ignore
+    }
+  }
+
+  public playRssChime() {
+    if (this.isMuted) return;
+    const ctx = this.getContext();
+    if (!ctx) return;
+    try {
+      const now = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(659.25, now); // E5
+      osc.frequency.setValueAtTime(987.77, now + 0.09); // B5
+      gain.gain.setValueAtTime(0.1, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.25);
+    } catch {
+      // Ignore
+    }
+  }
+
+  public playWeb20Pop() {
+    if (this.isMuted) return;
+    const ctx = this.getContext();
+    if (!ctx) return;
+    try {
+      const now = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(320, now);
+      osc.frequency.exponentialRampToValueAtTime(880, now + 0.07);
+      gain.gain.setValueAtTime(0.15, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.1);
+    } catch {
+      // Ignore
+    }
+  }
+}
 export const sound = new SoundEngine();
