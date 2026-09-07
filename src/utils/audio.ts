@@ -440,5 +440,180 @@ class SoundEngine {
       // Ignore
     }
   }
+
+  public playTweetChirp() {
+    if (this.isMuted) return;
+    const ctx = this.getContext();
+    if (!ctx) return;
+    try {
+      const now = ctx.currentTime;
+      // High cheerful tweet chirp whistle
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(1760, now); // A6
+      osc.frequency.exponentialRampToValueAtTime(2637, now + 0.07); // E7
+      osc.frequency.exponentialRampToValueAtTime(3520, now + 0.12); // A7
+      gain.gain.setValueAtTime(0.14, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.16);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.16);
+    } catch {
+      // Ignore
+    }
+  }
+
+  public playFacebookDing() {
+    if (this.isMuted) return;
+    const ctx = this.getContext();
+    if (!ctx) return;
+    try {
+      const now = ctx.currentTime;
+      // Classic clean social ping
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(880, now);
+      osc.frequency.setValueAtTime(1320, now + 0.05);
+      gain.gain.setValueAtTime(0.12, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.22);
+    } catch {
+      // Ignore
+    }
+  }
+
+  public playHarvestCoins() {
+    if (this.isMuted) return;
+    const ctx = this.getContext();
+    if (!ctx) return;
+    try {
+      // FarmVille cash / coin jingle
+      const notes = [987.77, 1318.51, 1567.98, 1975.53];
+      notes.forEach((freq, idx) => {
+        const now = ctx.currentTime + idx * 0.04;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, now);
+        gain.gain.setValueAtTime(0.12, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.12);
+      });
+    } catch {
+      // Ignore
+    }
+  }
+
+  public playSlingshotPull() {
+    if (this.isMuted) return;
+    const ctx = this.getContext();
+    if (!ctx) return;
+    try {
+      const now = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(140, now);
+      osc.frequency.linearRampToValueAtTime(280, now + 0.1);
+      gain.gain.setValueAtTime(0.08, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.1);
+    } catch {
+      // Ignore
+    }
+  }
+
+  public playBirdFly() {
+    if (this.isMuted) return;
+    const ctx = this.getContext();
+    if (!ctx) return;
+    try {
+      const now = ctx.currentTime;
+      // Rising whistle whoosh
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(350, now);
+      osc.frequency.exponentialRampToValueAtTime(1200, now + 0.22);
+      gain.gain.setValueAtTime(0.15, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.25);
+    } catch {
+      // Ignore
+    }
+  }
+
+  public playPigPop() {
+    if (this.isMuted) return;
+    const ctx = this.getContext();
+    if (!ctx) return;
+    try {
+      const now = ctx.currentTime;
+      // Cartoon pop & squelch
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(600, now);
+      osc.frequency.exponentialRampToValueAtTime(150, now + 0.08);
+      gain.gain.setValueAtTime(0.18, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.12);
+    } catch {
+      // Ignore
+    }
+  }
+
+  public playCameraShutter() {
+    if (this.isMuted) return;
+    const ctx = this.getContext();
+    if (!ctx) return;
+    try {
+      const now = ctx.currentTime;
+      // Mechanical double-click snapshot shutter
+      const osc1 = ctx.createOscillator();
+      const gain1 = ctx.createGain();
+      osc1.type = 'square';
+      osc1.frequency.setValueAtTime(1800, now);
+      osc1.frequency.exponentialRampToValueAtTime(400, now + 0.03);
+      gain1.gain.setValueAtTime(0.15, now);
+      gain1.gain.exponentialRampToValueAtTime(0.01, now + 0.035);
+      osc1.connect(gain1);
+      gain1.connect(ctx.destination);
+      osc1.start(now);
+      osc1.stop(now + 0.035);
+
+      const osc2 = ctx.createOscillator();
+      const gain2 = ctx.createGain();
+      osc2.type = 'square';
+      osc2.frequency.setValueAtTime(1200, now + 0.06);
+      osc2.frequency.exponentialRampToValueAtTime(250, now + 0.1);
+      gain2.gain.setValueAtTime(0.12, now + 0.06);
+      gain2.gain.exponentialRampToValueAtTime(0.01, now + 0.11);
+      osc2.connect(gain2);
+      gain2.connect(ctx.destination);
+      osc2.start(now + 0.06);
+      osc2.stop(now + 0.11);
+    } catch {
+      // Ignore
+    }
+  }
 }
 export const sound = new SoundEngine();

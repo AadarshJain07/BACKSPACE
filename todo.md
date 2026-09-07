@@ -35,3 +35,20 @@
 - [x] YouTube 2005 Classic 4:3 Flash Player ("Me at the zoo", 5-star rating system, embed generator, comments)
 - [x] Thefacebook 2005 College Network (Al Pacino header, Poke War mini-game, campus selector, The Wall)
 - [x] Google Maps 2005 AJAX Draggable Map (Slippery map panning, satellite/hybrid toggle, pushpins, turn directions)
+
+# Day 4 - Completed
+- [x] 2010 The Social Stream & Mobile Web Awakening Era
+- [x] Google Chrome 8 Browser Chrome with Minimalist Omnibox & Spanner Wrench Menu
+- [x] New Twitter 2010 Dual-Pane Interface with Timeline & Conversation Inspector
+- [x] 140-Character Live Tweet Composer with Real-Time Countdown & Validation
+- [x] Twitter Real-Time Retweet & Golden Star Favorite (★) Interactions
+- [x] Twitter Trending Topics (#Inception, #HTML5, #iPad, #WorldCup2010)
+- [x] Interactive Fail Whale Over-Capacity Simulator Modal
+- [x] Facebook 2010 Social Wall with Classic Blue Top Navigation & Likes
+- [x] FarmVille 2010 Crop Harvesting Mini-Game (Plow Soil, Plant Strawberries/Wheat/Pumpkins, Level Up & Coins)
+- [x] Angry Birds 2010 HTML5 Canvas Physics Slingshot Mini-Game (Trajectory Arc, Destructible Forts & Pig Pops)
+- [x] Instagram 2010 Polaroid Vintage Filter Studio (Earlybird, 1977, Valencia, Lo-Fi, X-Pro II, Tilt-Shift & Vignette)
+- [x] Instagram Feed with Double-Tap Heart Particle Animations & Camera Shutter SFX
+- [x] Steve Jobs "Thoughts on Flash" Interactive Tribute & HTML5 Canvas Particle Engine Comparison
+- [x] Responsive Web Design (RWD) Multi-Device Simulator (Desktop, iPad 1, iPhone 4 Retina) with Live CSS Media Query Inspector
+- [x] Synthesized 2010 Soundscapes (Tweet Chirp, Facebook Ding, FarmVille Coins, Slingshot Pull/Flight/Pop, Camera Shutter)
